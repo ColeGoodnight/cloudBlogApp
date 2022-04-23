@@ -70,7 +70,7 @@ const sequelize = new Sequelize(config.get('db.name'),
 // test connection
 checkConnection();
 
-// connection test?
+// old connection test
 /*const dbConnection = mongoose.connect(blog_db_url, (err) => {
   if(err){
     console.log(err)

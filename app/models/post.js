@@ -14,3 +14,28 @@ const postSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("Post", postSchema);
+
+// sequelize implementation
+const { Sequelize, DataTypes } = require('sequelize');
+// can we have an inherited sequelize object from config?
+//const sequelize = new Sequelize('urltodb?');
+
+const postSchema = sequelize.define('postSchema', {
+	title: DataTypes.STRING,
+	content: DataTypes.STRING,
+	username: {
+		type: DataTypes.STRING,
+		unique: true,
+		validate: {
+			// need to see if required exists in sequelize
+			isLowercase: true,
+			notEmpty: true,
+			validateUsername: function(username) {
+				// may need to modify regex
+				if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]))/)) {
+					throw new Error('Username not valid');
+				}
+			}
+		}
+	}
+})
