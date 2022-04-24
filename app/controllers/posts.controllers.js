@@ -6,7 +6,7 @@ const homeStartingContent =
 
 const composePost = (req, res) => {
 	const post = new Post({
-    username: req.user.username,
+    	username: req.user.username,
 		title: req.body.postTitle,
 		content: req.body.postBody
 	});

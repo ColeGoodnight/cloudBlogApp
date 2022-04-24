@@ -34,47 +34,54 @@ var config = convict({
   },
   db: {
     host: {
-      doc: 'Database host name/IP',
+      doc: 'AWS RDS Postgres',
       format: '*',
       default: 'default',
       env: 'DB_HOST'
     },
     name: {
-      doc: 'Database name',
+      doc: 'assign1db',
       format: String,
       default: 'default'
     },
     db_url: {
       format: '*',
-      default: 'http://localhost:27017/',
+      default: 'localhost',
+      //default: 'assign1db.cw0wwz7qupmp.us-west-2.rds.amazonaws.com',
       env: 'DB_URL'
     },
     password: {
       doc: 'db password',
       format: '*',
-      default: '',
+      default: 'password',
       sensitive: true,
       env: 'MON_PASS'
+    },
+    user: {
+      doc: 'db user',
+      format: '*',
+      default: 'application',
+      env: 'DB_USER'
     }
   },
   secret: {
     doc: 'Secret used for session cookies and CSRF tokens',
     format: '*',
-    default: '',
+    default: 'secret',
     sensitive: true,
     env: 'SESSION_SECRET'
   },
   test_username: {
     doc: 'Secret used for session cookies and CSRF tokens',
     format: '*',
-    default: '',
+    default: 'testuser@gmail.com',
     sensitive: true,
     env: 'TEST_USER_NAME'
   },
   test_password: {
     doc: 'Secret used for session cookies and CSRF tokens',
     format: '*',
-    default: '',
+    default: 'password',
     sensitive: true,
     env: 'TEST_PASSWORD'
   }
