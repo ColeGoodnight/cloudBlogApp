@@ -51,6 +51,7 @@ const userRegister = (req, res, next) => {
     } else {
         console.log(input_email, input_password, input_username);
         newUser = new User({ email: req.body.email, username: req.body.username });
+        redist.mset(newUser);
         User.register(newUser, input_password, function (err, user) {
             if (err) {
                 console.log(err);

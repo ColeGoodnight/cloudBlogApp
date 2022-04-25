@@ -11,6 +11,7 @@ const composePost = (req, res) => {
 		content: req.body.postBody
 	});
 
+  redis.mset(post) 
 	post.save();
 	res.redirect('/post');
 };
@@ -23,6 +24,8 @@ const displayAllPosts = (req, res) => {
 		});
 	});
 };
+
+// Use mget for finding post
 async function displayPost (req, res)  {
 	const requestedPostId = req.params.postId;
 
