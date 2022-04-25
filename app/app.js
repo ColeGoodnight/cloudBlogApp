@@ -6,7 +6,12 @@ const helmet = require('helmet');
 const https= require("https");
 const fs = require('fs');
 
+// Global cache
 const redis = require('./models/cache')
+
+// Session store
+const session = require("express-session")
+let RedisStore = require("connect-redis")(session)
 
 const bodyParser = require('body-parser');
 //const mongoose = require('mongoose');
@@ -88,10 +93,7 @@ app.use(
 	session({
 		secret: config.get('secret'),
 		resave: false,
-    	store: MongoStore.create({
-			mongoUrl: blog_db_url,
-		    ttl: 2 * 24 * 60 * 60
-		}),
+    	store: new RedisStore({ client: redis }),
 		saveUninitialized: false,
 		cookie: { secure: 'auto' }
 	})
