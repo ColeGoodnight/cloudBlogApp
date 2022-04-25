@@ -1,6 +1,6 @@
 const { request } = require("express");
 const Post = require("../models/post");
-const redis = require('../models/')
+const redis = require('./models/cache')
 
 const homeStartingContent =
 	'The home pages lists all the blogs from all the users.';
@@ -34,11 +34,7 @@ const displayAllPosts = (req, res) => {
 async function displayPost (req, res)  {
 	const requestedPostId = req.params.postId;
 
-	const post = await Post.findAll({
-		where: {
-			postId: requestedPostId,
-		}
-	});
+
 
 	res.render('post', {
 		title: post.title,
@@ -51,6 +47,24 @@ async function displayPost (req, res)  {
 			content: post.content
 		});
 	});*/
+	redis.get(requestedPostId, (err, result) => {
+		if (err) {
+      const post = await Post.findAll({
+        where: {
+          postId: requestedPostId,
+        }
+      });
+      redis.set(requestedPostId, JSON.stringify(post));
+		} else {
+			post = JSON.parse(result);
+			res.render('post', {
+				title: result.title,
+				content: result.content
+			});
+		}
+	  });
+
+	
 };
 
 module.exports = {

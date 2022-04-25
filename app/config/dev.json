@@ -1,6 +1,6 @@
 {
     "env":"dev",
-    "port":4000,
+    "port":8080,
     "db": {
         "name": "assign1_db"
     }
