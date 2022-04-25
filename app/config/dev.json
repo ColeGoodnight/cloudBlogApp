@@ -1,7 +1,10 @@
 {
     "env":"dev",
-    "port":4000,
+    "port":8080,
     "db": {
-        "name": "userBlogs"
+        "name": "DBDBDB",
+        "db_url": "mongodb+srv://ortegat2:vcZSy1KIBhIgHvVQ@cluster0.sufmy.mongodb.net/myFirstDatabase?retryWrites=true",
+        "password": "vcZSy1KIBhIgHvVQ",
+        "host": "ortegat2"
     }
 }
