@@ -1,5 +1,6 @@
 const { request } = require("express");
 const Post = require("../models/post");
+const redis = require('../models/')
 
 const homeStartingContent =
 	'The home pages lists all the blogs from all the users.';
@@ -32,6 +33,7 @@ const displayAllPosts = (req, res) => {
 
 async function displayPost (req, res)  {
 	const requestedPostId = req.params.postId;
+
 	const post = await Post.findAll({
 		where: {
 			postId: requestedPostId,
