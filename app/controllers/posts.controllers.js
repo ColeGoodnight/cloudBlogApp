@@ -1,3 +1,4 @@
+const { request } = require("express");
 const Post = require("../models/post");
 
 const homeStartingContent =
@@ -14,22 +15,40 @@ const composePost = (req, res) => {
 };
 
 const displayAllPosts = (req, res) => {
-	Post.find({}, function(err, posts) {
+	const posts = await Post.findAll();
+
+	res.render('home', {
+		startingContent: homeStartingContent,
+		posts: posts
+	});
+
+	/*Post.find({}, function(err, posts) {
 		res.render('home', {
 			startingContent: homeStartingContent,
 			posts: posts
 		});
-	});
+	});*/
 };
+
 async function displayPost (req, res)  {
 	const requestedPostId = req.params.postId;
+	const post = await Post.findAll({
+		where: {
+			postId: requestedPostId,
+		}
+	});
 
-	Post.findOne({ _id: requestedPostId }, function(err, post) {
+	res.render('post', {
+		title: post.title,
+		content: post.content
+	});
+
+	/*Post.findOne({ _id: requestedPostId }, function(err, post) {
 		res.render('post', {
 			title: post.title,
 			content: post.content
 		});
-	});
+	});*/
 };
 
 module.exports = {
