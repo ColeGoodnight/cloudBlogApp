@@ -39,7 +39,7 @@ const userSchema = sequelize.define('userSchema', {
 			isLowercase: true,
 			validateUsername: function(username) {
 				// may need to modify regex
-				if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]))/)) {
+				if (! String.test(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]))/)) {
 					throw new Error('Username not valid');
 				}
 			}
@@ -53,7 +53,7 @@ const userSchema = sequelize.define('userSchema', {
 			isLowercase: true,
 			validateEmail: function(username) {
 				// may need to modify regex
-				if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+				if (! String.test(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
 					throw new Error('Email not valid');
 				}
 			}
