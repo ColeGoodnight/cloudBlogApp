@@ -5,7 +5,7 @@ const homeStartingContent =
 	'The home pages lists all the blogs from all the users.';
 
 const composePost = (req, res) => {
-	await Post.create({
+	Post.create({
     	username: req.user.username,
 		title: req.body.postTitle,
 		content: req.body.postBody
@@ -15,7 +15,7 @@ const composePost = (req, res) => {
 };
 
 const displayAllPosts = (req, res) => {
-	const posts = await Post.findAll();
+	const posts = Post.findAll();
 
 	res.render('home', {
 		startingContent: homeStartingContent,

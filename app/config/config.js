@@ -46,8 +46,8 @@ var config = convict({
     },
     db_url: {
       format: '*',
-      default: 'localhost',
-      //default: 'assign1db.cw0wwz7qupmp.us-west-2.rds.amazonaws.com',
+      //default: 'localhost',
+      default: 'assign1-db.cw0wwz7qupmp.us-west-2.rds.amazonaws.com',
       env: 'DB_URL'
     },
     password: {
@@ -60,7 +60,7 @@ var config = convict({
     user: {
       doc: 'db user',
       format: '*',
-      default: 'application',
+      default: 'postgres',
       env: 'DB_USER'
     }
   },
