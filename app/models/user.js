@@ -27,7 +27,7 @@ module.exports = mongoose.model("User", userSchema);
 */
 
 // sequelize implementation
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/database');
 
 const userSchema = sequelize.define('userSchema', {
@@ -58,7 +58,15 @@ const userSchema = sequelize.define('userSchema', {
 				}
 			}
 		}
+	},
+	password: {
+		type: DataTypes.STRING,
+		allowNull: true,
+		notEmpty: true,
 	}
 });
+userSchema.prototype.validPassword = function (password) {
+	return this.password === password;
+}
 
 module.exports = userSchema;
