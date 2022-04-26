@@ -2,6 +2,6 @@
     "env":"dev",
     "port":4000,
     "db": {
-        "name": "assign1db"
+        "name": "assign1_db"
     }
 }

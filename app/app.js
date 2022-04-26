@@ -13,6 +13,7 @@ const bodyParser = require('body-parser');
 //const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
+require('./config/passport')
 //const MongoStore = require('connect-mongo');
 //const { Sequelize, DataTypes } = require('sequelize');
 //const mongoSanitize = require('express-mongo-sanitize');
@@ -65,7 +66,7 @@ checkConnection();
 // one to many relationship
 User.hasMany(Post);
 
-// create tables in db
+// sync tables in db
 sequelize
 	.sync()
 	.then((result) => {

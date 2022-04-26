@@ -29,7 +29,6 @@ const postSchema = sequelize.define('postSchema', {
 	},
 	content: {
 		type: DataTypes.STRING,
-		type: DataTypes.STRING,
 		allowNull: false,
 	},
 	username: {
@@ -39,8 +38,8 @@ const postSchema = sequelize.define('postSchema', {
 		validate: {
 			isLowercase: true,
 			validateUsername: function(username) {
-				// may need to modify regex statement
-				if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]))/)) {
+				// may need to modify regex
+				if (! String.test(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]))/)) {
 					throw new Error('Username not valid');
 				}
 			}
