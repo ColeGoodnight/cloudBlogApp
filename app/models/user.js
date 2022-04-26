@@ -36,7 +36,6 @@ const userSchema = sequelize.define('userSchema', {
 		unique: true,
 		allowNull: false,
 		validate: {
-			// need to see if required exists in sequelize
 			isLowercase: true,
 			validateUsername: function(username) {
 				// may need to modify regex
@@ -51,7 +50,6 @@ const userSchema = sequelize.define('userSchema', {
 		allowNull: false,
 		unique: true,
 		validate: {
-			// need to see if required exists in sequelize
 			isLowercase: true,
 			validateEmail: function(username) {
 				// may need to modify regex

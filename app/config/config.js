@@ -40,7 +40,7 @@ var config = convict({
       env: 'DB_HOST'
     },
     name: {
-      doc: 'assign1db',
+      doc: 'assign1_db',
       format: String,
       default: 'default'
     },
@@ -60,7 +60,7 @@ var config = convict({
     user: {
       doc: 'db user',
       format: '*',
-      default: 'application',
+      default: 'postgres',
       env: 'DB_USER'
     }
   },
