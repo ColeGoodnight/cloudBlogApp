@@ -6,6 +6,7 @@ const router = express.Router();
 
 const checkAuth = require('../middleware/checkAuth.middleware');
 const userControllers = require('../controllers/users.controllers');
+const passport = require('passport')
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(express.json());
@@ -40,7 +41,22 @@ router.post(
 		// Indicates the success of this synchronous custom validator
 		return true;
 	}),
-    userControllers.userRegister
+	passport.authenticate('local-signup', {
+		successRedirect: '/post',
+		failureRedirect: '/register'
+	})
+	
+	/*function(req, res, next) {
+		console.log('entered post function')
+		passport.authenticate('local-signup', function(err, user, info) {
+			if (err) { return next(err); }
+			if (!user) { return res.redirect('user/register'); }
+			passport.authenticate('local')(req, res, function () {
+				res.redirect('/post');
+			});
+		})
+	}*/
+    //userControllers.userRegister
 );
 
 module.exports = router
