@@ -15,12 +15,14 @@ const composePost = (req, res) => {
 };
 
 const displayAllPosts = (req, res) => {
-	const posts = Post.findAll();
-
-	res.render('home', {
-		startingContent: homeStartingContent,
-		posts: posts
+	Post.findAll().then( function(posts) {
+		res.render('home', {
+			startingContent: homeStartingContent,
+			posts: posts
+		});
 	});
+
+	
 
 	/*Post.find({}, function(err, posts) {
 		res.render('home', {
@@ -32,16 +34,18 @@ const displayAllPosts = (req, res) => {
 
 async function displayPost (req, res)  {
 	const requestedPostId = req.params.postId;
-	const post = await Post.findAll({
+	Post.findAll({
 		where: {
 			postId: requestedPostId,
 		}
+	}).then(function(post) {
+		res.render('post', {
+			title: post.title,
+			content: post.content
+		});
 	});
 
-	res.render('post', {
-		title: post.title,
-		content: post.content
-	});
+	
 
 	/*Post.findOne({ _id: requestedPostId }, function(err, post) {
 		res.render('post', {

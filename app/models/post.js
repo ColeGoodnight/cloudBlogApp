@@ -37,12 +37,13 @@ const postSchema = sequelize.define('postSchema', {
 		allowNull: false,
 		validate: {
 			isLowercase: true,
+			/*
 			validateUsername: function(username) {
 				// may need to modify regex
 				if (! String.test(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]))/)) {
 					throw new Error('Username not valid');
 				}
-			}
+			}*/
 		}
 	}
 });

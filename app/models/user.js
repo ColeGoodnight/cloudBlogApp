@@ -71,8 +71,13 @@ const userSchema = sequelize.define('userSchema', {
 		notEmpty: true,
 	}
 });
-userSchema.prototype.validPassword = function (password) {
-	return this.password === password;
+userSchema.findById = async function (userid) {
+	const temp = await userSchema.findOne({
+		where: {
+			id: userid
+		}
+	})
+	return temp
 }
 
 module.exports = userSchema;
