@@ -99,28 +99,17 @@ app.use(
 );
 
 
-
+require('./config/passport.js')(User);
 app.use(passport.initialize());
 app.use(passport.session());
 
-/*
-passport.use(User.createStrategy());
 
-passport.serializeUser(function(user, done) {
-	done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-	User.findById(id, function(err, user) {
-		done(err, user);
-	});
-});
 
 app.use(function(req, res, next) {
 	res.locals.isAuthenticated=req.isAuthenticated();
 	next();
 });
-*/
+
 
 app.use('/user', userRouter);
 
