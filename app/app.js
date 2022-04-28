@@ -15,7 +15,6 @@ let RedisStore = require("connect-redis")(session)
 
 const bodyParser = require('body-parser');
 //const mongoose = require('mongoose');
-const session = require('express-session');
 const passport = require('passport');
 require('./config/passport')
 //const MongoStore = require('connect-mongo');
