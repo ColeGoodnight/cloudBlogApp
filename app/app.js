@@ -13,16 +13,19 @@ const bodyParser = require('body-parser');
 //const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
+require('./config/passport')
 //const MongoStore = require('connect-mongo');
-const { Sequelize, DataTypes } = require('sequelize');
-const mongoSanitize = require('express-mongo-sanitize');
+//const { Sequelize, DataTypes } = require('sequelize');
+//const mongoSanitize = require('express-mongo-sanitize');
 
 
 const User = require("./models/user");
+const Post = require("./models/post")
 
 const userRouter = require('./routes/user.routes');
 const postRouter = require('./routes/post.routes');
 const { check } = require('express-validator');
+const sequelize = require('./utils/database');
 
 
 const app = express();
@@ -57,18 +60,21 @@ const blogDB = config.get('db.name')
 	blogDB +
 	'?retryWrites=true&w=majority';*/
 
-const sequelize = new Sequelize(config.get('db.name'), 
-								config.get('db.user'),
-								config.get('db.password'),
-								{
-									host: 'localhost',
-									port: '5432',
-									dialect: 'postgres',
-									logging: false
-								})
-
-// test connection
+// test connection through sequelize
 checkConnection();
+
+// one to many relationship
+User.hasMany(Post);
+
+// sync tables in db
+sequelize
+	.sync()
+	.then((result) => {
+		console.log(result);
+	})
+	.catch((err) => {
+		console.log(err);
+	});
 
 // old connection test
 /*const dbConnection = mongoose.connect(blog_db_url, (err) => {
@@ -93,26 +99,17 @@ app.use(
 );
 
 
-
+require('./config/passport.js')(User);
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(User.createStrategy());
 
-passport.serializeUser(function(user, done) {
-	done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-	User.findById(id, function(err, user) {
-		done(err, user);
-	});
-});
 
 app.use(function(req, res, next) {
 	res.locals.isAuthenticated=req.isAuthenticated();
 	next();
 });
+
 
 app.use('/user', userRouter);
 

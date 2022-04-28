@@ -40,27 +40,27 @@ var config = convict({
       env: 'DB_HOST'
     },
     name: {
-      doc: 'assign1db',
+      doc: 'assign1_db',
       format: String,
       default: 'default'
     },
     db_url: {
       format: '*',
-      default: 'localhost',
-      //default: 'assign1db.cw0wwz7qupmp.us-west-2.rds.amazonaws.com',
+      //default: 'localhost',
+      default: process.env.DB_HOST,
       env: 'DB_URL'
     },
     password: {
       doc: 'db password',
       format: '*',
-      default: 'password',
+      default: process.env.DB_PASSWORD,
       sensitive: true,
       env: 'MON_PASS'
     },
     user: {
       doc: 'db user',
       format: '*',
-      default: 'application',
+      default: process.env.DB_USER,
       env: 'DB_USER'
     }
   },

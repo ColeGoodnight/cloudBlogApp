@@ -1,3 +1,4 @@
+/*
 const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema({
@@ -14,28 +15,36 @@ const postSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("Post", postSchema);
+*/
 
 // sequelize implementation
 const { Sequelize, DataTypes } = require('sequelize');
-// can we have an inherited sequelize object from config?
-//const sequelize = new Sequelize('urltodb?');
+const sequelize = require('../utils/database');
+
 
 const postSchema = sequelize.define('postSchema', {
-	title: DataTypes.STRING,
-	content: DataTypes.STRING,
+	title: {
+		type: DataTypes.STRING,
+		allowNull: false,
+	},
+	content: {
+		type: DataTypes.STRING,
+		allowNull: false,
+	},
 	username: {
 		type: DataTypes.STRING,
 		unique: true,
+		allowNull: false,
 		validate: {
-			// need to see if required exists in sequelize
 			isLowercase: true,
-			notEmpty: true,
 			validateUsername: function(username) {
 				// may need to modify regex
-				if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]))/)) {
+				if (! String.test(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]))/)) {
 					throw new Error('Username not valid');
 				}
 			}
 		}
 	}
-})
+});
+
+module.exports = postSchema;
