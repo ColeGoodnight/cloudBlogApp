@@ -106,7 +106,7 @@ app.use(passport.session());
 
 app.use(function(req, res, next) {
 	res.locals.isAuthenticated =  function() {
-			return (req.isAuthenticated() || req.app.get('user'));
+			return (req.isAuthenticated());// || req.app.get('user'));
 	}
 	next();
 });
