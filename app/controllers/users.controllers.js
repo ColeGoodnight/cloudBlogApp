@@ -6,6 +6,7 @@ const userLogout = (req, res, next) => {
     console.log('logout processed');
     req.session.destroy();
     req.logout();
+    req.app.set('user', false);
     res.redirect('/post/about');
 };
 
