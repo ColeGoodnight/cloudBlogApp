@@ -1,0 +1,23 @@
+Group members:
+Trevor Ortega, Cole Goodnight
+
+DB/Auth strategy:
+We chose to use postgres as the team has some prior experience with this 
+database in production, as opposed to mysql. In addition we used sequelize
+in place of mongoose in the original application, as this was an easier
+transition to make compared to ditching the ORM concept entirely. In terms of
+authentication, we chose to expand upon the functionality of the passport 
+framework that was already implemented, this involved creating custom signup 
+and signin strategies to accomodate our usage of sequelize. 
+
+Challenges:
+One of the hardest challenges was debugging passport authentication as it is
+somewhat of a "black box" when it comes to error logging. Primarily stack 
+overflow was used to figure out why we were getting the errors that we did,
+eventually we found a post that contained the information that we needed to
+enable more detailed error messages. When it came to figuring out the 
+authentication initially there were several tutorials on integrating sequelize
+with passport that were very helpful.
+
+Non-working:
+
