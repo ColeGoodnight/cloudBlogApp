@@ -6,11 +6,14 @@ const homeStartingContent =
 
 const composePost = (req, res) => {
 	Post.create({
-    	username: req.user.username,
+		username: req.user.username,
 		title: req.body.postTitle,
 		content: req.body.postBody
-	});
-
+	}).catch(function (err) {
+		console.log(err)
+	})
+		
+	
 	res.redirect('/post');
 };
 
@@ -34,15 +37,17 @@ const displayAllPosts = (req, res) => {
 
 async function displayPost (req, res)  {
 	const requestedPostId = req.params.postId;
-	Post.findAll({
+	await Post.findOne({
 		where: {
-			postId: requestedPostId,
+			_id: requestedPostId,
 		}
 	}).then(function(post) {
 		res.render('post', {
 			title: post.title,
 			content: post.content
 		});
+	}).catch((err) => {
+		console.log(err)
 	});
 
 	

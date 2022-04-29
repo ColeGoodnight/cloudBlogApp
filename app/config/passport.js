@@ -1,42 +1,12 @@
 //const User = require('./../models/user')
 const passport = require('passport')
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 // const LocalStrategy = require('passport-local').Strategy
 var bCrypt = require('bcrypt');
 const User = require('./../models/user')
 
-
-/*passport.use(new LocalStrategy(async function(usern, pass, done) {
-      try{
-        const user = await User.findOne({where: { username: usern }})
-        if (!user){
-            return done(null, false, { message: 'Username not found' }) 
-        }
-        const passVal = user.validPassword(pass)
-        if(!passVal){
-            return done(null, false, { message: 'Incorrect password' })
-        }
-        return done(null, user);
-      } catch(error) {
-          return done(error)
-      }
-  }
-  ))
-    
-passport.serializeUser(function(user, done) {
-    done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-    User.findByPk(id).then(function(user) { done(null, user); });
-});*/
-
 module.exports = function(user) {
- 
-    //var User = user;
 
-
- 
     var LocalStrategy = require('passport-local').Strategy;
 
     passport.use('local-signin', new LocalStrategy(
@@ -139,7 +109,6 @@ module.exports = function(user) {
                             username: username,
                             password: userPassword,
                         };
- 
                     User.create(data).then(function(newUser, created) {
                         if (newUser) {
                             return done(null, newUser)
@@ -147,6 +116,9 @@ module.exports = function(user) {
                             console.log("Something went wrong");
                             return done(null, false)
                         }
+                    }).catch(Sequelize.ValidationError , function (err) {
+                        console.log(err);
+                        res.redirect('/login');
                     });
                 }
             });

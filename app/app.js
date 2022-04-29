@@ -67,7 +67,9 @@ User.hasMany(Post);
 
 // sync tables in db
 sequelize
-	.sync()
+	.sync(
+		//{force: true}
+	)
 	.then((result) => {
 		console.log(result);
 	})
