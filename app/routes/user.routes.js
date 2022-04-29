@@ -12,7 +12,6 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.use(express.json());
 router.use(express.static('public'));
 
-// https://itswagi.medium.com/how-to-get-started-with-express-sequelize-and-passport-cc405391a3de
 router.post('/logout', userControllers.userLogout);
 
 router.post('/login', checkAuth.authenticateUserMiddleware, function(req, res) {

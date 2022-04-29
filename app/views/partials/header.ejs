@@ -14,7 +14,7 @@
       </div>
         <ul class="nav navbar-nav navbar-right">
           
-          <% if (isAuthenticated) { %>
+          <% if (isAuthenticated()) { %>
             <form action="/user/logout?_method=DELETE" method="POST">
               <button type="submit">Logout</button>
             </form>
@@ -22,7 +22,7 @@
             <li id="compose"><a href="/post/compose">Compose</a></li>
           <% } %>
 
-          <% if (!isAuthenticated) { %>
+          <% if (!isAuthenticated()) { %>
             <li id="register"><a href="/user/register">Register</a></li>
             <li id="login"><a href="/user/login">Login</a></li>
           <% } %>

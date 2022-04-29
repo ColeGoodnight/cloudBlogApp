@@ -1,50 +1,20 @@
-/*
-const mongoose = require("mongoose");
-const passportLocalMongoose = require('passport-local-mongoose');
-
-const userSchema = new mongoose.Schema({
-	username: {
-		type: String,
-		lowercase: true,
-		required: [ true, "can't be blank" ],
-		match: [ /^[a-zA-Z0-9]+$/, 'Invalid username' ],
-		unique: true,
-		index: true
-	},
-	email: {
-		type: String,
-		lowercase: true,
-		unique: true,
-		required: [ true, "can't be blank" ],
-		match: [ /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Invalid Email' ],
-		index: true
-	}
-});
-
-userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
-
-module.exports = mongoose.model("User", userSchema);
-*/
-
 // sequelize implementation
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/database');
 
 const userSchema = sequelize.define('userSchema', {
+	id: {
+		primaryKey: true,
+		autoIncrement: true,
+		type: DataTypes.INTEGER,
+	},
 	username: {
 		type: DataTypes.STRING,
 		unique: true,
 		allowNull: false,
 		validate: {
 			isLowercase: true,
-			/*
-			//TOOD: fix regex
-			validateUsername: function(username) {
-				// may need to modify regex
-				if (! String.test(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]))/)) {
-					throw new Error('Username not valid');
-				}
-			}*/
+			isAlphanumeric: true,
 		}
 	},
 	email: {
@@ -54,15 +24,6 @@ const userSchema = sequelize.define('userSchema', {
 		validate: {
 			isLowercase: true,
 			isEmail:true,
-			/*
-			// TODO: fix regex
-			validateEmail: function(username) {
-				// may need to modify regex
-				if (! String.test(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
-					throw new Error('Email not valid');
-				}
-			}
-			*/
 		}
 	},
 	password: {
@@ -71,8 +32,13 @@ const userSchema = sequelize.define('userSchema', {
 		notEmpty: true,
 	}
 });
-userSchema.prototype.validPassword = function (password) {
-	return this.password === password;
+userSchema.findById = async function (userid) {
+	const temp = await userSchema.findOne({
+		where: {
+			id: userid
+		}
+	})
+	return temp
 }
 
 module.exports = userSchema;

@@ -47,41 +47,41 @@ var config = convict({
     db_url: {
       format: '*',
       //default: 'localhost',
-      default: process.env.DB_HOST,
+      default: '',
       env: 'DB_URL'
     },
     password: {
       doc: 'db password',
       format: '*',
-      default: process.env.DB_PASSWORD,
+      default: '',
       sensitive: true,
-      env: 'MON_PASS'
+      env: 'DB_PASSWORD'
     },
     user: {
       doc: 'db user',
       format: '*',
-      default: process.env.DB_USER,
+      default: '',
       env: 'DB_USER'
     }
   },
   secret: {
     doc: 'Secret used for session cookies and CSRF tokens',
     format: '*',
-    default: 'secret',
+    default: '',
     sensitive: true,
     env: 'SESSION_SECRET'
   },
   test_username: {
     doc: 'Secret used for session cookies and CSRF tokens',
     format: '*',
-    default: 'testuser@gmail.com',
+    default: '',
     sensitive: true,
     env: 'TEST_USER_NAME'
   },
   test_password: {
     doc: 'Secret used for session cookies and CSRF tokens',
     format: '*',
-    default: 'password',
+    default: '',
     sensitive: true,
     env: 'TEST_PASSWORD'
   }

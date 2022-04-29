@@ -6,21 +6,26 @@ const homeStartingContent =
 
 const composePost = (req, res) => {
 	Post.create({
-    	username: req.user.username,
+		username: req.user.username,
 		title: req.body.postTitle,
 		content: req.body.postBody
-	});
-
+	}).catch(function (err) {
+		console.log(err)
+	})
+		
+	
 	res.redirect('/post');
 };
 
 const displayAllPosts = (req, res) => {
-	const posts = Post.findAll();
-
-	res.render('home', {
-		startingContent: homeStartingContent,
-		posts: posts
+	Post.findAll().then( function(posts) {
+		res.render('home', {
+			startingContent: homeStartingContent,
+			posts: posts
+		});
 	});
+
+	
 
 	/*Post.find({}, function(err, posts) {
 		res.render('home', {
@@ -32,16 +37,20 @@ const displayAllPosts = (req, res) => {
 
 async function displayPost (req, res)  {
 	const requestedPostId = req.params.postId;
-	const post = await Post.findAll({
+	await Post.findOne({
 		where: {
-			postId: requestedPostId,
+			_id: requestedPostId,
 		}
+	}).then(function(post) {
+		res.render('post', {
+			title: post.title,
+			content: post.content
+		});
+	}).catch((err) => {
+		console.log(err)
 	});
 
-	res.render('post', {
-		title: post.title,
-		content: post.content
-	});
+	
 
 	/*Post.findOne({ _id: requestedPostId }, function(err, post) {
 		res.render('post', {

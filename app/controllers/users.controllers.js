@@ -2,8 +2,6 @@ const User = require('../models/user');
 const passport = require('passport');
 const { body, validationResult } = require('express-validator');
 
-
-
 const userLogout = (req, res, next) => {
     console.log('logout processed');
     req.session.destroy();

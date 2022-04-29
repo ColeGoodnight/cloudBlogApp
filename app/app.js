@@ -46,7 +46,6 @@ async function checkConnection() {
 		console.error('Unable to connect to the database:', error);
 	}
 }
-
   
 app.set('trust proxy', 1); // trust first proxy
 
@@ -68,7 +67,9 @@ User.hasMany(Post);
 
 // sync tables in db
 sequelize
-	.sync()
+	.sync(
+		//{force: true}
+	)
 	.then((result) => {
 		console.log(result);
 	})
@@ -106,7 +107,9 @@ app.use(passport.session());
 
 
 app.use(function(req, res, next) {
-	res.locals.isAuthenticated=req.isAuthenticated();
+	res.locals.isAuthenticated =  function() {
+			return (req.isAuthenticated());// || req.app.get('user'));
+	}
 	next();
 });
 
