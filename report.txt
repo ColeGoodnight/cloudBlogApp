@@ -20,4 +20,4 @@ authentication initially there were several tutorials on integrating sequelize
 with passport that were very helpful.
 
 Non-working:
-
+Issues with the username/password validation that is handled by sequelize - otherwise functional.
