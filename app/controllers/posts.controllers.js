@@ -1,9 +1,10 @@
 const { request } = require("express");
 const Post = require("../models/post");
 const redis = require('../models/cache')
+const crypto = require('node:crypto')
 
-const { GetCommand, PutCommand } = require("@aws-sdk/lib-dynamodb");
-const ddbDocClient = require("../config/ddbdocclient.js");
+const { GetCommand, PutCommand, QueryCommand, ScanCommand } = require("@aws-sdk/lib-dynamodb");
+const { ddbDocClient } = require("../config/ddbdocclient.js");
 
 const homeStartingContent =
 	'The home pages lists all the blogs from all the users.';
@@ -17,10 +18,12 @@ const composePost = async (req, res) => {
 		console.log(err)
 	})*/
 	
+	console.log("redirected to compose");
+	
 	const params = {
-    TableName: "cloudBlogApp",
+    TableName: "cloudBlogApp3",
     Item: {
-      UUID: crypto.randomUUID(),
+      partKeyID: crypto.randomUUID(),
       username: req.user.username,
       title: req.body.postTitle,
 			content: req.body.postBody
@@ -40,36 +43,35 @@ const composePost = async (req, res) => {
 	res.redirect('/post');
 };
 
-const displayAllPosts = (req, res) => {
-	Post.findAll().then( function(posts) {
+const displayAllPosts = async (req, res) => {
+	/*Post.findAll().then( function(posts) {
 		res.render('home', {
 			startingContent: homeStartingContent,
 			posts: posts
 		});
-	});
+	});*/
 	
-	const scanTable = async (tableName) => {
-    const params = {
-        TableName: "cloudBlogApp",
-    }
-
-    const scanResults = [];
-    var items;
-    do {
-        items =  await documentClient.scan(params).promise();
-        items.Items.forEach((item) => scanResults.push(item));
-        params.ExclusiveStartKey  = items.LastEvaluatedKey;
-    } while (typeof items.LastEvaluatedKey !== "undefined");
-    
-    return scanResults;
-
-	};
+	const params = {
+		TableName: 'cloudBlogApp3',
+	}
 	
-	res.render('home', {
-		startingContent: homeStartingContent,
-		posts: scanResults
-		
-	});
+	try {
+		const data = await ddbDocClient.send(new ScanCommand(params));
+		res.render('home', {
+			startingContent: homeStartingContent,
+			posts: data.Items
+		})
+	} catch (err) {
+		console.log("Error", err.stack);
+	}
+}
+
+	
+	
+	
+	
+	
+	
 
 	
 
@@ -79,12 +81,10 @@ const displayAllPosts = (req, res) => {
 			posts: posts
 		});
 	});*/
-};
 
 async function displayPost (req, res)  {
+	console.log("made it to display")
 	const requestedPostId = req.params.postId;
-	
-
 	
 
 	/*Post.findOne({ _id: requestedPostId }, function(err, post) {
@@ -102,9 +102,9 @@ async function displayPost (req, res)  {
   }
   
   const params = {
-	  TableName: "cloudBlogApp",
+	  TableName: "cloudBlogApp3",
 	  Key: {
-	    UUID: requestedPostId
+	    partKeyID: requestedPostId
 	  },
 	};
 	

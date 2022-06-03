@@ -4,6 +4,7 @@ const config = require('./config/config');
 const compression = require ('compression');
 const helmet = require('helmet');
 const https= require("https");
+const http = require("http")
 const fs = require('fs')
 
 const Redis = require("ioredis");
@@ -54,8 +55,10 @@ async function checkConnection() {
   
 app.set('trust proxy', 1); // trust first proxy
 
-const port = config.get('port') || 3000;
+const port = config.get('port') || 8080;
 const blogDB = config.get('db.name')
+
+console.log("port" + port)
 
 /*const blog_db_url =
 	config.get('db.db_url') +
@@ -68,7 +71,7 @@ const blogDB = config.get('db.name')
 checkConnection();
 
 // one to many relationship
-User.hasMany(Post);
+//User.hasMany(Post);
 
 // sync tables in db
 sequelize
@@ -124,7 +127,9 @@ app.all('*', function(req, res) {
   res.redirect("/post/about");
 });
 
-const server = https.createServer({
+console.log("through routing")
+
+const server = http.createServer({
 	key: fs.readFileSync('server.key'),
 	cert: fs.readFileSync('server.cert')
 }, app).listen(port, () => {
